@@ -10,8 +10,8 @@ import com.emazon.emazon_stock_api.domain.spi.ICategoryPersistencePort;
 public class CategoryUseCase implements ICategoryServicePort {
 
     private final ICategoryPersistencePort categoryPersistencePort;
-    private int MaxLengthName = 50;
-    private int MaxLengthDescription = 90;
+    private int maxLengthName = 50;
+    private int maxLengthDescription = 90;
 
     public CategoryUseCase(ICategoryPersistencePort categoryPersistencePort) {
         this.categoryPersistencePort = categoryPersistencePort;
@@ -35,7 +35,7 @@ public class CategoryUseCase implements ICategoryServicePort {
         if (name == null || name.isEmpty()) {
             throw new InvalidCategoryNameException("Category name cannot be empty.");
         }
-        if (name.length() > MaxLengthName) {
+        if (name.length() > maxLengthName) {
             throw new InvalidCategoryNameException("Category name cannot be more than 50 characters.");
         }
     }
@@ -44,7 +44,7 @@ public class CategoryUseCase implements ICategoryServicePort {
         if (description == null || description.isEmpty()) {
             throw new InvalidCategoryDescriptionException("Category description is required.");
         }
-        if (description.length() > MaxLengthDescription) {
+        if (description.length() > maxLengthDescription) {
             throw new InvalidCategoryDescriptionException("Category description cannot be more than 90 characters.");
         }
     }

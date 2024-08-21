@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class CategoryUseCaseTest {
+class CategoryUseCaseTest {
 
     @Mock
     private ICategoryPersistencePort categoryPersistencePort;
@@ -30,7 +30,7 @@ public class CategoryUseCaseTest {
     }
 
     @Test
-    public void testSaveCategorySuccess() {
+    void testSaveCategorySuccess() {
         Category category = new Category(1L, "clothes", "men's clothing");
         when(categoryPersistencePort.existsByName("clothes")).thenReturn(false);
         when(categoryPersistencePort.saveCategory(category)).thenReturn(category);
@@ -43,7 +43,7 @@ public class CategoryUseCaseTest {
     }
 
     @Test
-    public void testSaveCategoryAlreadyExists() {
+    void testSaveCategoryAlreadyExists() {
         Category category = new Category(2L, "phone", "high end phones");
         when(categoryPersistencePort.existsByName("phone")).thenReturn(true);
         assertThrows(CategoryAlreadyExistsException.class, () -> categoryUseCase.saveCategory(category));
@@ -52,14 +52,14 @@ public class CategoryUseCaseTest {
     }
 
     @Test
-    public void testValidateNameWhenNameIsNull() {
+    void testValidateNameWhenNameIsNull() {
         assertThrows(InvalidCategoryNameException.class, () -> {
             categoryUseCase.validateName(null);
         });
     }
 
     @Test
-    public void testValidateNameWhenNameIsTooLong() {
+    void testValidateNameWhenNameIsTooLong() {
         String longName = "A".repeat(51);
         assertThrows(InvalidCategoryNameException.class, () -> {
             categoryUseCase.validateName(longName);
