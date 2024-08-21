@@ -1,12 +1,12 @@
-package com.emazon.emazon_stock_api.application.dto;
+package com.emazon.emazon_stock_api.application.dto.brand;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CategoryResponse {
-    private Long id;
+public class BrandRequest {
+    private long id;
     private String name;
     private String description;
 }

@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "category")
+@Table(name = "brands")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class CategoryEntity {
+public class BrandEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,6 @@ public class CategoryEntity {
 
     @NotNull
     @NotBlank
-    @Max(90)
+    @Max(120)
     private String description;
 }

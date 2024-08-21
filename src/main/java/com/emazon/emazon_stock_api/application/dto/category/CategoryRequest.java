@@ -1,11 +1,11 @@
-package com.emazon.emazon_stock_api.domain.entities;
+package com.emazon.emazon_stock_api.application.dto.category;
 
-public class Category {
+public class CategoryRequest {
     private Long id;
     private String name;
     private String description;
 
-    public Category(Long id, String name, String description){
+    public CategoryRequest(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

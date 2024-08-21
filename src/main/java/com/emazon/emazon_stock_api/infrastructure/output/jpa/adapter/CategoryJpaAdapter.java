@@ -1,8 +1,8 @@
 package com.emazon.emazon_stock_api.infrastructure.output.jpa.adapter;
 
-import com.emazon.emazon_stock_api.domain.entities.Category;
+import com.emazon.emazon_stock_api.domain.models.Category;
 import com.emazon.emazon_stock_api.domain.spi.ICategoryPersistencePort;
-import com.emazon.emazon_stock_api.infrastructure.exception.CategoryAlreadyExistsException;
+import com.emazon.emazon_stock_api.infrastructure.output.jpa.entity.CategoryEntity;
 import com.emazon.emazon_stock_api.infrastructure.output.jpa.mapper.CategoryEntityMapper;
 import com.emazon.emazon_stock_api.infrastructure.output.jpa.repository.ICategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,19 +15,12 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
 
     @Override
     public boolean existsByName(String name) {
-        return false;
+        return categoryRepository.findByName(name).isPresent();
     }
 
     @Override
     public Category saveCategory(Category category) {
-        existCategory(category.getName());
-        categoryRepository.save(categoryEntityMapper.toCategoryEntity(category));
-        return  null;
-    }
-
-    public void existCategory(String name){
-        if(categoryRepository.findByName(name).isPresent()){
-            throw new CategoryAlreadyExistsException("Category exist");
-        }
+        CategoryEntity categoryEntity = categoryRepository.save(categoryEntityMapper.toCategoryEntity(category));
+        return  categoryEntityMapper.toCategory(categoryEntity);
     }
 }

@@ -1,7 +1,7 @@
-package com.emazon.emazon_stock_api.application.mapper;
+package com.emazon.emazon_stock_api.application.mapper.category;
 
-import com.emazon.emazon_stock_api.application.dto.CategoryResponse;
-import com.emazon.emazon_stock_api.domain.entities.Category;
+import com.emazon.emazon_stock_api.application.dto.category.CategoryResponse;
+import com.emazon.emazon_stock_api.domain.models.Category;
 import org.mapstruct.Mapper;
 
 import java.util.List;
