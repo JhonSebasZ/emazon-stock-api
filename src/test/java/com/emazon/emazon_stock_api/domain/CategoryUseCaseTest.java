@@ -1,9 +1,11 @@
 package com.emazon.emazon_stock_api.domain;
 
 import com.emazon.emazon_stock_api.domain.exceptions.category.CategoryAlreadyExistsException;
+import com.emazon.emazon_stock_api.domain.exceptions.category.CategoryNotFoundException;
 import com.emazon.emazon_stock_api.domain.exceptions.category.InvalidCategoryDescriptionException;
 import com.emazon.emazon_stock_api.domain.exceptions.category.InvalidCategoryNameException;
 import com.emazon.emazon_stock_api.domain.models.Category;
+import com.emazon.emazon_stock_api.domain.models.PaginatedResult;
 import com.emazon.emazon_stock_api.domain.spi.ICategoryPersistencePort;
 import com.emazon.emazon_stock_api.domain.usecase.CategoryUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CategoryUseCaseTest {
@@ -79,5 +82,30 @@ class CategoryUseCaseTest {
         assertThrows(InvalidCategoryDescriptionException.class, () -> {
             categoryUseCase.validateDescription(longDescription);
         });
+    }
+
+    @Test
+    void testListCategorySuccess(){
+        PaginatedResult<Category> paginateResult = new PaginatedResult<>(
+                List.of(new Category(1L, "Name", "Description")),
+                0,10,1,1,true);
+        when(categoryPersistencePort.listCategories(0,10,"asc","name")).thenReturn(paginateResult);
+
+        PaginatedResult<Category> result = categoryUseCase.listCategories(0, 10, "asc", "name");
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        verify(categoryPersistencePort, times(1)).listCategories(0, 10, "asc", "name");
+    }
+
+    @Test
+    void testListCategoryEmpty(){
+        when(categoryPersistencePort.listCategories(0, 10, "asc", "name"))
+                .thenReturn(new PaginatedResult<>(List.of(), 0, 10, 0, 1, true));
+
+        Exception exception = assertThrows(CategoryNotFoundException.class, () -> {
+            categoryUseCase.listCategories(0, 10, "asc", "name");
+        });
+
+        assertEquals("There are no categories", exception.getMessage());
     }
 }
